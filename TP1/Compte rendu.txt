@@ -1,0 +1,2 @@
+I) 
+Sur l'image marche, le gradient est nul sur toute la partie éloignée de la frontière blanc/noir. Sur la partie proche de la frontière il est orienté vers le haut.
