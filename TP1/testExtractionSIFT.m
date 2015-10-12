@@ -10,20 +10,23 @@ hy = [1 0 -1];
 
 
 [n,m] = size(I);
-Ix = convolution_separable(I,hy,hx);
-Iy = convolution_separable(I,hx',hy');
+Ix = convolution_separable(I,hy,hx)/4;
+Iy = convolution_separable(I,hx',hy')/4;
 Ig = (Ix.^2+Iy.^2).^1/2;
 Ior = orientation (Ix,Iy,Ig);
 Mg = gaussSIFT(s);
 
-x0 = 125;
-y0 = 100;
  
 %Ig(x0:x0+s,y0:y0+s)
 %Ior(x0:x0+s,y0:y0+s)
-Mg;
+
+delta = s/2
+r = denseSampling( I, s, delta );
+patch = r(:,randi(size(r,2)))
+x0 = patch(1);
+y0 = patch(2)
 sift = computeSIFT(s,Ig(x0:x0+s-1,y0:y0+s-1),Ior(x0:x0+s-1,y0:y0+s-1),Mg);
-size(sift)
-patch = [x0;y0];
+size(sift);
+
 visuSIFT( I, Ig,Ior, patch ,'visu',s,sift)
 		

@@ -1,0 +1,64 @@
+Exercice 1
+1 Calcul du descripteurs SIFT pour une region (patch)
+
+Image marche 
+
+à [125;100], le gradient est nul sur toute la partie éloignée de la frontière blanc/noir. Sur la partie proche de la frontière il est orienté vers le haut, ce qui est cohérent avec l'idée que le gradient s'oriente du noir vers le blanc.
+Au niveau des composantes du descripteur SIFT elles sont donc toutes nulles sauf 4 pics à 33 +3, 41+ 3, 49 +3 , 57 + 3 ce qui correspond bien aux histogrammes de la deuxième ligne, avec gradient vers le haut.
+
+à [97,121] on a la même situation avec cette fois-ci un gradient vers la gauche, donc des pics à 17+5, 49+5, 81+5, 113+5 (3ème colonne gradient vers la gauche, nul partout ailleurs).
+
+à [121,121] l'élément notable est le coin. Les 3 premiers pics des cas précédents se superposent même si relativement ils perdent en intensité (car le vecteur sift est normé)
+
+Image tools
+
+à [80;200], une large bande diagonale barre le fond blanc. Les pics de SIFT sont toujours espacés de façon régulière (car séparation linéaire donc l'orientation du gradient ne change pas entre les blocs d'une même ligne) mais cette fois leur amplitude n'est pas la même pour chaque pic car la séparation noire/blanc est moins nette que pour la marche (pixellisation dûe au fait que les lignes ne sont ni horizontales ni diagonales).
+
+à [173;250],puisque l'on a 3 lignes avec 2 orientations différentes les 3 vagues de descripteur se chevauchent.
+
+Image random
+1
+Des gradients dans plusieurs directions donc de nombreuses dimensions du sift sont non nulles, avec un module plus élevé en bas à droite de l'image donc pour les derniers sifts.
+ 
+
+2
+Une image uniforme légèrement dégradée d'où un gradient de module faible vers le bas. Pour le sift cela se traduit,par des pics réguliers à 8*n + 7
+ 
+
+2 Calcul des descripteurs SIFT pour une image
+
+Pour une région totalement homogène le gradient est nul en tout point, donc le descripteur SIFT aussi.
+Pour une région globalement homogène, le gradient est de faible module est orienté de façon non significative en quelques points, nul pour les autres. Donc la norme du descripteur sift avant normalisation est faible, donc les valeurs non nulles vont être très élevées après normalisation, ce qui n'est pas souhaitable car cela donne le même descripteur que pour la marche par exemple, alors que les images sont très différentes.
+
+Après plusieurs essais, le seuil de la norme est fixé à 20, ce qui permet d'obtenir les résultats suivants :
+ 
+
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+3 Calcul de l’ensemble des descripteurs de la base
+
+
+Cette implémentation tient compte de l'orientation du gradient. Cela permet de distinguer des images qui autrement auraient été assimilées.
+
+Exercice 2
+
+Question theorique
+
+On cherche 
+ 
+ 
+Or la fonction à minimiser est convexe donc elle possède un minimum global. De plus son gradient par rapport à cm est proportionnel à 
+ 
+
+qui par définition s'annule au barycentre des xi. Donc la solution est bien le barycentre des xi.
+
+
+
